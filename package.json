@@ -4,7 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "mocha"
+    "test": "eslint . && mocha",
+    "lint": "eslint ."
   },
   "author": "",
   "license": "ISC",
