@@ -1,4 +1,5 @@
 const Hapi = require('hapi');
+const Hoek = require('hoek');
 
 // Create a server with a host and port
 const server = new Hapi.Server();
@@ -7,17 +8,33 @@ server.connection({
   port: 8000,
 });
 
-// Add the route
-server.route({
-  method: 'GET',
-  path: '/hello',
-  handler: (request, reply) => reply('hello world'),
-});
+server.register(require('vision'), (err) => {
 
-// Start the server
-server.start((err) => {
-  if (err) {
-    throw err;
-  }
-  console.log('Server running at:', server.info.uri); // eslint-disable-line no-console
+    Hoek.assert(!err, err);
+
+    server.views({
+        engines: {
+            html: require('handlebars')
+        },
+        relativeTo: __dirname,
+        path: 'templates'
+    });
+
+    // Add the route
+    server.route({
+        method: 'GET',
+        path:'/hello', 
+        handler: function (request, reply) {
+            return reply('hello world');
+        }
+    });
+
+    // Start the server
+    server.start((err) => {
+
+        if (err) {
+            throw err;
+        }
+        console.log('Server running at:', server.info.uri);
+    });
 });
