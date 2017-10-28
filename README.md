@@ -9,3 +9,7 @@ To run:
 To test:
 
     npm test
+
+To run linter:
+
+    npm run lint
