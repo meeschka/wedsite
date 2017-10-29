@@ -16,6 +16,7 @@ server.register([Vision, Inert], () => {
     },
     relativeTo: __dirname,
     path: 'templates',
+    isCached: false,
   });
 
   server.route({
@@ -31,6 +32,15 @@ server.register([Vision, Inert], () => {
       directory: {
         path: 'styles',
       },
+    },
+  });
+
+  server.route({
+    method: 'POST',
+    path: '/api/rsvp',
+    handler: (request, reply) => {
+      console.log(request.payload); // eslint-disable-line no-console
+      reply();
     },
   });
 
