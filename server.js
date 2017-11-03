@@ -1,23 +1,53 @@
 const Hapi = require('hapi');
+const Handlebars = require('handlebars');
+const Vision = require('vision');
+const Inert = require('inert');
 
-// Create a server with a host and port
 const server = new Hapi.Server();
 server.connection({
   host: 'localhost',
   port: 8000,
 });
 
-// Add the route
-server.route({
-  method: 'GET',
-  path: '/hello',
-  handler: (request, reply) => reply('hello world'),
-});
+server.register([Vision, Inert], () => {
+  server.views({
+    engines: {
+      html: Handlebars,
+    },
+    relativeTo: __dirname,
+    path: 'templates',
+    isCached: false,
+  });
 
-// Start the server
-server.start((err) => {
-  if (err) {
-    throw err;
-  }
-  console.log('Server running at:', server.info.uri); // eslint-disable-line no-console
+  server.route({
+    method: 'GET',
+    path: '/',
+    handler: (request, reply) => reply.view('index'),
+  });
+
+  server.route({
+    method: 'GET',
+    path: '/styles/{filename*}',
+    handler: {
+      directory: {
+        path: 'styles',
+      },
+    },
+  });
+
+  server.route({
+    method: 'POST',
+    path: '/api/rsvp',
+    handler: (request, reply) => {
+      console.log(request.payload); // eslint-disable-line no-console
+      reply();
+    },
+  });
+
+  server.start((serverErr) => {
+    if (serverErr) {
+      throw serverErr;
+    }
+    console.log('Server running at:', server.info.uri); // eslint-disable-line no-console
+  });
 });

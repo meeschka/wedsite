@@ -1,0 +1,49 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="styles/main.css" type="text/css"/>
+    <link href="https://fonts.googleapis.com/css?family=Dancing+Script|Lato|Lora" rel="stylesheet">
+    <title>Linley/Pitts Wedding RSVP</title>
+  </head>
+  <body>
+    <section class="sitemap-header">
+      <span class="sitemap-name">David Linley</span>
+      <div class="link-container">
+        <a href="#" class="sitemap-link">RSVP</a>
+        <a href="#" class="sitemap-link">Registry</a>
+        <a href="#" class="sitemap-link">Info</a>
+      </div>
+      <span class="sitemap-name">Michelle Pitts</span>
+    </section>
+
+    <div class="banner-image-container">
+      <div class="banner-image">
+
+      </div>
+    </div>
+
+    <section class="rsvp-section card">
+      <div class="card-header">
+        <h2>RSVP</h2>
+      </div>
+      <form class="form card-body" action="api/rsvp" method="post">
+        <label class="form-label">
+          Guest Name
+          <input type="text" class="form-control" name="guestName" placeholder="Your name" required>
+        </label>
+        <label class="form-label">
+          Are You Able To Attend?
+          <select class="select form-control" name="">
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+          </select>
+        </label>
+        <label class="form-label">
+          Dietary Restrictions/Allergies
+          <textarea name="allergies" rows="8" cols="80" class="form-control"></textarea>
+        </label>
+
+        <button type="submit" name="submit" class="button btn-primary">Submit</button>
+      </form>
+    </section>
+  </body>
+</html>

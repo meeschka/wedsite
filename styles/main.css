@@ -1,0 +1,113 @@
+:root {
+  --header-color: #404040;
+  --border-color: #9F9F9F;
+  --button-color: #EFEFEF;
+  --wedding-color-burgundy: #990033;
+  --wedding-color-blue: #336699;
+}
+
+h1, h2, h3 {
+  margin: 0;
+}
+
+body {
+  margin: 0;
+}
+
+body, button {
+  font-family: 'Lato', sans-serif;
+}
+
+a {
+  color: var(--wedding-color-blue);
+  text-decoration: none;
+}
+
+.button {
+  background: var(--button-color);
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  padding: 5px 10px;
+}
+
+.card {
+  padding: 10px;
+  margin: auto;
+  width: 800px;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  margin-bottom: 30px;
+}
+
+.card .card-header {
+  margin: 0;
+  font-family: 'Dancing Script', cursive;
+  color: var(--header-color);
+  width: 90%;
+  border-bottom: 1px solid var(--border-color);
+  margin: auto;
+  text-align: center;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+}
+
+.card .card-body {
+  margin-bottom: 0;
+  padding: 10px;
+}
+
+.form-label {
+  display: block;
+  padding-bottom: 10px;
+}
+
+.form-label:last-child {
+  padding-bottom: 0;
+}
+
+.form-control {
+  display: block;
+  border-radius: 5px;
+  border-style: ridge;
+  padding: 5px;
+  margin-top: 5px;
+  background-color: white;
+  min-width: 200px;
+}
+
+.sitemap-header {
+  width: 90%;
+  margin: auto;
+  text-align: center;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.sitemap-header .sitemap-link {
+  padding: 0 20px;
+  margin: 0 10px;
+}
+
+.banner-image-container {
+  padding: 15px 0;
+  background-color: var(--wedding-color-burgundy);
+  margin-bottom: 30px;
+}
+
+.banner-image {
+  background-image: url('assets/header.png');
+  width: 100%;
+  height: 300px;
+  background-position: center;
+  background-position-y: 38%;
+  background-size: cover;
+}
+
+.overview-header {
+  font-family: 'Dancing Script', cursive;
+  padding-bottom: 30px;
+  text-align: center;
+}
