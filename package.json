@@ -4,8 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "eslint . && NODE_ENV=test mocha",
-    "lint": "eslint ."
+    "test": "eslint . && csslint styles --quiet && NODE_ENV=test mocha",
+    "lint": "eslint . && csslint styles --quiet"
   },
   "author": "",
   "license": "ISC",
