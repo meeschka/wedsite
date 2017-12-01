@@ -8,7 +8,7 @@ server.connection({
   host: 'localhost',
   port: 8000,
 });
-
+server.rsvpList = [];
 server.register([Vision, Inert], () => {
   server.views({
     engines: {
@@ -39,15 +39,18 @@ server.register([Vision, Inert], () => {
     method: 'POST',
     path: '/api/rsvp',
     handler: (request, reply) => {
-      console.log(request.payload); // eslint-disable-line no-console
-      reply();
+      server.rsvpList.push(request.payload);
+      reply('rsvp accepted');
     },
   });
-
-  server.start((serverErr) => {
-    if (serverErr) {
-      throw serverErr;
-    }
-    console.log('Server running at:', server.info.uri); // eslint-disable-line no-console
-  });
+  if (process.env.NODE_ENV !== 'test') {
+    server.start((serverErr) => {
+      if (serverErr) {
+        throw serverErr;
+      }
+      console.log('Server running at:', server.info.uri); // eslint-disable-line no-console
+    });
+  }
 });
+
+module.exports = server;
