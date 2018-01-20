@@ -8,7 +8,9 @@ server.connection({
   host: 'localhost',
   port: 8000,
 });
+
 server.rsvpList = [];
+
 server.register([Vision, Inert], () => {
   server.views({
     engines: {
@@ -43,6 +45,15 @@ server.register([Vision, Inert], () => {
       reply('rsvp accepted');
     },
   });
+
+  server.route({
+    method: 'GET',
+    path: '/api/admin/guests',
+    handler: (request, reply) => {
+      reply(server.rsvpList);
+    },
+  });
+
   if (process.env.NODE_ENV !== 'test') {
     server.start((serverErr) => {
       if (serverErr) {
