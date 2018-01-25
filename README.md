@@ -1,5 +1,10 @@
 # wedsite
-Wedding website for David and Michelle
+
+Wedding website for David and Michelle.
+
+## Prerequisites
+
+- [PostgreSQL](https://www.postgresql.org/)
 
 ## Development
 To run:
