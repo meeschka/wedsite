@@ -4,22 +4,27 @@ const Vision = require('vision');
 const Inert = require('inert');
 const { Client } = require('pg');
 
+require('dotenv').config();
+
 const server = new Hapi.Server();
 server.connection({
-  host: 'localhost',
-  port: 8000,
+  port: process.env.PORT,
 });
 
-server.pgClient = new Client({
-  user: 'postgres',
-  host: 'localhost',
-  database: 'wedsite',
-  password: 'postgres',
-});
+new Promise((resolve, reject) => {
+  server.pgClient = new Client();
+  server.pgClient.connect((err) => {
+    if (err) reject(err);
 
-server.pgClient.connect();
+    resolve();
+  });
+}).then(() => new Promise((resolve, reject) => {
+  server.register([Vision, Inert], (err) => {
+    if (err) reject(err);
 
-server.register([Vision, Inert], () => {
+    resolve();
+  });
+})).then(() => {
   server.views({
     engines: {
       html: Handlebars,
@@ -77,6 +82,9 @@ server.register([Vision, Inert], () => {
       console.log('Server running at:', server.info.uri); // eslint-disable-line no-console
     });
   }
+}).catch((err) => {
+  console.error(err); // eslint-disable-line no-console
+  process.exit(1);
 });
 
 module.exports = server;
