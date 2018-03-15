@@ -1,14 +1,28 @@
 const { assert } = require('chai');
-const server = require('../server');
+const proxyquire = require('proxyquire');
+const sinon = require('sinon');
 
 describe('Server', () => {
   let rsvpRequest;
+  let server;
+  let pgClient;
+
   beforeEach(() => {
-    server.rsvpList = [];
+    pgClient = {
+      connect: sinon.stub(),
+      end: sinon.stub(),
+      query: sinon.stub().returns(Promise.resolve()),
+    };
+    const pg = {
+      Client: sinon.stub().returns(pgClient),
+    };
+    server = proxyquire('../server', {
+      pg,
+    });
 
     rsvpRequest = (guestName, attending, allergies) =>
       server.inject({
-        method: 'Post',
+        method: 'POST',
         url: '/api/rsvp',
         payload: {
           attending,
@@ -20,8 +34,11 @@ describe('Server', () => {
 
   describe('#POST /api/rsvp', () => {
     it('should persist rsvp details', (done) => {
-      rsvpRequest('Chris', true, 'many').then(() => {
-        assert(server.rsvpList.length, 1);
+      rsvpRequest('Chris', 'yes', 'many').then(() => {
+        assert(pgClient.query.calledWith(
+          'INSERT INTO guests(name, response, allergies) VALUES($1, $2, $3)',
+          ['Chris', true, 'many'],
+        ));
         done();
       });
     });
@@ -37,23 +54,31 @@ describe('Server', () => {
 
   describe('#GET /api/admin/guests', () => {
     it('should respond with guest list', (done) => {
-      rsvpRequest('Luke', true, 'many')
-        .then(() => rsvpRequest('Vader', false, 'none'))
-        .then(() =>
-          server.inject({
-            method: 'GET',
-            url: '/api/admin/guests',
-          }))
-        .then((response) => {
-          assert.isOk(response.result);
-          assert.equal(response.result.length, 2);
-          assert.deepEqual(response.result[0], {
-            attending: true,
-            guestName: 'Luke',
-            allergies: 'many',
-          });
-          done();
+      pgClient.query.withArgs('SELECT * FROM guests').returns(Promise.resolve({
+        rows: [
+          {
+            id: 1, name: 'Luke', response: true, allergies: 'many',
+          },
+          {
+            id: 2, name: 'Vader', response: false, allergies: 'none',
+          },
+        ],
+      }));
+
+      server.inject({
+        method: 'GET',
+        url: '/api/admin/guests',
+      }).then((response) => {
+        assert.isOk(response.result);
+        assert.equal(response.result.length, 2);
+        assert.deepEqual(response.result[0], {
+          id: 1,
+          name: 'Luke',
+          response: true,
+          allergies: 'many',
         });
+        done();
+      });
     });
   });
 });

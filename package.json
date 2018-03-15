@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "eslint . && csslint styles --quiet && NODE_ENV=test mocha",
-    "lint": "eslint . && csslint styles --quiet"
+    "lint": "eslint . && csslint styles --quiet",
+    "migrate": "env $(cat .env | grep -v ^# | xargs) psql -d wedsite -f db/*"
   },
   "author": "",
   "license": "ISC",
@@ -13,6 +14,7 @@
     "handlebars": "^4.0.11",
     "hapi": "^16.6.2",
     "inert": "^4.2.1",
+    "pg": "^7.4.1",
     "vision": "^4.1.1"
   },
   "devDependencies": {
@@ -21,6 +23,8 @@
     "eslint": "^4.9.0",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.8.0",
-    "mocha": "^4.0.1"
+    "mocha": "^4.0.1",
+    "proxyquire": "^1.8.0",
+    "sinon": "^4.1.6"
   }
 }
