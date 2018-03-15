@@ -9,7 +9,7 @@ describe('Server', () => {
 
   beforeEach(() => {
     pgClient = {
-      connect: sinon.stub(),
+      connect: sinon.stub().yields(),
       end: sinon.stub(),
       query: sinon.stub().returns(Promise.resolve()),
     };
