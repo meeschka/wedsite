@@ -44,10 +44,30 @@ describe('Server', () => {
     });
 
     it('should reply with success message', (done) => {
-      rsvpRequest('Geri', true, 'many').then((response) => {
+      rsvpRequest('Geri', 'yes', 'many').then((response) => {
         assert.isOk(response);
         assert.isOk(response.payload);
         done();
+      });
+    });
+
+    describe('with a declined RSVP', () => {
+      it('should reply with a success message', (done) => {
+        rsvpRequest('Simon', 'no', null).then((response) => {
+          assert.isOk(response);
+          assert.isOk(response.payload);
+          done();
+        });
+      });
+
+      it('should persist the declined RSVP', (done) => {
+        rsvpRequest('Timon', 'no', null).then(() => {
+          assert(pgClient.query.calledWith(
+            'INSERT INTO guests(name, response, allergies) VALUES($1, $2, $3)',
+            ['Timon', false, null],
+          ));
+          done();
+        });
       });
     });
   });
