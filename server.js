@@ -51,6 +51,16 @@ new Promise((resolve, reject) => {
   });
 
   server.route({
+    method: 'GET',
+    path: '/scripts/{filename*}',
+    handler: {
+      directory: {
+        path: 'scripts',
+      },
+    },
+  });
+
+  server.route({
     method: 'POST',
     path: '/api/rsvp',
     handler: (request, reply) => {

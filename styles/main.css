@@ -51,6 +51,11 @@ a {
   width: 90%;
 }
 
+.card .card-alert {
+  font-weight: bold;
+  text-align: center;
+}
+
 .card .card-body {
   margin-bottom: 0;
   padding: 10px;
@@ -109,4 +114,20 @@ a {
   font-family: 'Dancing Script', cursive;
   padding-bottom: 30px;
   text-align: center;
+}
+
+.rsvp-success {
+  border-color: #336699;
+  border-width: 3px;
+}
+
+.rsvp-failure {
+  border-color: #990033;
+  border-width: 3px;
+}
+
+.flash-message-container {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 2s;
 }

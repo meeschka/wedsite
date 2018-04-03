@@ -2,6 +2,7 @@
   <head>
     <link rel="stylesheet" href="styles/main.css" type="text/css"/>
     <link href="https://fonts.googleapis.com/css?family=Dancing+Script|Lato|Lora" rel="stylesheet">
+
     <title>Linley/Pitts Wedding RSVP</title>
   </head>
   <body>
@@ -21,11 +22,33 @@
       </div>
     </div>
 
+    <div id="rsvpSuccessFlashContainer" class="flash-message-container">
+      <section id="rsvpSuccessFlash" class="rsvp-success card">
+        <div class="card-alert">Thank You</div>
+
+        <div class="card-body">
+          Your RSVP has been recorded. Please email <a href="mailto:rsvp@linleypitts.wedding">rsvp@linleypitts.wedding</a> with any further inquiries.
+        </div>
+      </section>
+    </div>
+
+    <div id="rsvpFailureFlashContainer" class="flash-message-container">
+      <section id="rsvpFailureFlash" class="rsvp-failure card">
+        <div class="card-alert">
+          Your RSVP could not be processed
+        </div>
+
+        <div class="card-body">
+          Sorry, something went wrong and your RSVP was not recorded. Please send a message to <a href="mailto:rsvp@linleypitts.wedding">rsvp@linleypitts.wedding</a> and we'll get back to you as soon as possible.
+        </div>
+      </section>
+    </div>
+
     <section class="rsvp-section card">
       <div class="card-header">
         <h2>RSVP</h2>
       </div>
-      <form class="form card-body" action="api/rsvp" method="post">
+      <form id="rsvpForm" class="form card-body" action="api/rsvp" method="post">
         <label class="form-label">
           Guest Name
           <input type="text" class="form-control" name="guestName" placeholder="Your name" required>
@@ -42,8 +65,11 @@
           <textarea name="allergies" rows="8" cols="80" class="form-control"></textarea>
         </label>
 
-        <button type="submit" class="button btn-primary">Submit</button>
+        <button id="rsvpSubmitButton" type="submit" class="button btn-primary">Submit</button>
       </form>
     </section>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="scripts/rsvp.js"></script>
   </body>
 </html>
