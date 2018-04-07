@@ -46,8 +46,8 @@ new Promise((resolve, reject) => {
 
   server.route({
     method: 'GET',
-    path: '/',
-    handler: (request, reply) => reply.view('index'),
+    path: '/{templateName}',
+    handler: (request, reply) => reply.view(request.params.templateName),
   });
 
   server.route({

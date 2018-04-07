@@ -1,5 +1,8 @@
 {
   "globals": {
-    "$": false
+    "$": false,
+    "jQuery": false,
+    "document": false,
+    "google": false
   }
 }
