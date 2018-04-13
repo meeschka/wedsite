@@ -74,6 +74,30 @@ describe('Server', () => {
           done();
         });
       });
+
+      describe('when responding with multiple guests', () => {
+        it('should store a response for each guest', (done) => {
+          server.inject({
+            method: 'POST',
+            url: '/api/rsvp',
+            payload: {
+              attending: 'yes',
+              guestName: ['Guest One', 'Guest Two'],
+              allergies: 'Some',
+            },
+          }).then(() => {
+            assert(pgClient.query.calledWith(
+              'INSERT INTO guests(name, response, allergies) VALUES($1, $2, $3)',
+              ['Guest One', true, 'Some'],
+            ));
+            assert(pgClient.query.calledWith(
+              'INSERT INTO guests(name, response, allergies) VALUES($1, $2, $3)',
+              ['Guest Two', true, 'Some'],
+            ));
+            done();
+          });
+        });
+      });
     });
   });
 

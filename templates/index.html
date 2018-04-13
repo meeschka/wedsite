@@ -53,6 +53,15 @@
           Guest Name
           <input type="text" class="form-control" name="guestName" placeholder="Your name" required>
         </label>
+        {{#if query.showGuestRsvp}}
+          <label class="form-label">
+            Other Guest Name
+            <input type="text" class="form-control" name="guestName" placeholder="Your +1's name" required>
+          </label>
+        {{else}}
+          <div id="additionalGuests"></div>
+          <a href="/?showGuestRsvp=true" id="addGuestButton" class="form-label">Responding for more than one person?</a>
+        {{/if}}
         <label class="form-label">
           Are You Able To Attend?
           <select class="select form-control" name="attending">

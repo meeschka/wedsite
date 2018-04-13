@@ -49,7 +49,10 @@ new Promise((resolve, reject) => {
     path: '/{templateName?}',
     handler: (request, reply) => {
       const viewName = request.params.templateName || 'index';
-      reply.view(viewName, { GOOGLE_MAPS_KEY: process.env.GOOGLE_MAPS_KEY });
+      reply.view(viewName, {
+        GOOGLE_MAPS_KEY: process.env.GOOGLE_MAPS_KEY,
+        query: request.query,
+      });
     },
   });
 
@@ -78,10 +81,14 @@ new Promise((resolve, reject) => {
     path: '/api/rsvp',
     handler: (request, reply) => {
       const attending = request.payload.attending === 'yes';
-      server.pgClient.query(
+      let names = request.payload.guestName;
+      if (!Array.isArray(names)) {
+        names = [names];
+      }
+      Promise.all(names.map(name => server.pgClient.query(
         'INSERT INTO guests(name, response, allergies) VALUES($1, $2, $3)',
-        [request.payload.guestName, attending, request.payload.allergies],
-      ).then(() => {
+        [name, attending, request.payload.allergies],
+      ))).then(() => {
         reply('rsvp accepted');
       });
     },

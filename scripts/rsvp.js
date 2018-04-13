@@ -14,7 +14,18 @@ $('#rsvpForm').submit((event) => {
     $('#rsvpFailureFlashContainer').css('max-height', '500px');
     // eslint-disable-next-line no-console
     console.error(error);
-  }).always(() => {
     $('#rsvpSubmitButton').attr('disabled', false);
   });
 });
+
+$('#addGuestButton').click((event) => {
+  event.preventDefault();
+
+  $('#additionalGuests').append(`
+    <label class="form-label">
+      <input type="text" class="form-control" name="guestName" placeholder="Other guest's name" required>
+    </label>
+  `);
+});
+
+$('#addGuestButton').attr('href', '');
