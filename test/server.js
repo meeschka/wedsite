@@ -3,7 +3,6 @@ const proxyquire = require('proxyquire');
 const sinon = require('sinon');
 
 describe('Server', () => {
-  let rsvpRequest;
   let server;
   let pgClient;
 
@@ -22,20 +21,23 @@ describe('Server', () => {
     server = proxyquire('../server', {
       pg,
     });
-
-    rsvpRequest = (guestName, attending, allergies) =>
-      server.inject({
-        method: 'POST',
-        url: '/api/rsvp',
-        payload: {
-          attending,
-          guestName,
-          allergies,
-        },
-      });
   });
 
   describe('#POST /api/rsvp', () => {
+    let rsvpRequest;
+    beforeEach(() => {
+      rsvpRequest = (guestName, attending, allergies) =>
+        server.inject({
+          method: 'POST',
+          url: '/api/rsvp',
+          payload: {
+            attending,
+            guestName,
+            allergies,
+          },
+        });
+    });
+
     it('should persist rsvp details', (done) => {
       rsvpRequest('Chris', 'yes', 'many').then(() => {
         assert(pgClient.query.calledWith(
@@ -124,6 +126,21 @@ describe('Server', () => {
         assert.include(response.result, 'Luke');
         assert.include(response.result, 'many');
         assert.include(response.result, 'Vader');
+        done();
+      });
+    });
+  });
+
+  describe('#GET /', () => {
+    it('should render the home page', (done) => {
+      server.inject({
+        method: 'GET',
+        url: '/',
+      }).then((response) => {
+        assert.isOk(response.result);
+        assert.include(response.result, 'Michelle Pitts');
+        assert.include(response.result, 'David Linley');
+        assert.include(response.result, 'RSVP');
         done();
       });
     });
