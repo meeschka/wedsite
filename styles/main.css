@@ -14,8 +14,13 @@ body {
   margin: 0;
 }
 
-body, button {
-  font-family: 'Lato', sans-serif;
+body, button, input, textarea {
+  font-family: 'Lato', 'Helvetica', 'Arial', sans-serif;
+}
+
+input, select, textarea, button {
+  font-family: inherit;
+  font-size: inherit;
 }
 
 a {
@@ -26,27 +31,27 @@ a {
 .button {
   background: #EFEFEF;
   border: 1px solid #9F9F9F;
-  border-radius: 5px;
-  padding: 5px 10px;
+  border-radius: 0.3em;
+  padding: 0.3em 0.6em;
 }
 
 .card {
   border: 1px solid #9F9F9F;
-  border-radius: 5px;
+  border-radius: 0.3em;
   box-sizing: border-box;
   margin: auto;
-  margin-bottom: 30px;
-  padding: 10px;
-  width: 800px;
+  margin-bottom: 2em;
+  max-width: 50em;
+  padding: 0.6em;
 }
 
 .card .card-header {
   border-bottom: 1px solid #9F9F9F;
   color: #404040;
-  font-family: 'Dancing Script', cursive;
+  font-family: 'Dancing Script', 'Georgia', serif;
   margin: auto;
-  margin-bottom: 10px;
-  padding-bottom: 10px;
+  margin-bottom: 0.6em;
+  padding-bottom: 0.6em;
   text-align: center;
   width: 90%;
 }
@@ -58,12 +63,12 @@ a {
 
 .card .card-body {
   margin-bottom: 0;
-  padding: 10px;
+  padding: 0.6em;
 }
 
 .form-label {
   display: block;
-  padding-bottom: 10px;
+  padding-bottom: 0.6em;
 }
 
 .form-label:last-child {
@@ -72,12 +77,12 @@ a {
 
 .form-control {
   background-color: white;
-  border-radius: 5px;
+  border-radius: 0.3em;
   border-style: ridge;
   display: block;
-  margin-top: 5px;
-  min-width: 200px;
-  padding: 5px;
+  margin-top: 0.3em;
+  padding: 0.3em;
+  width: 100%;
 }
 
 .sitemap-header {
@@ -85,45 +90,49 @@ a {
   display: flex;
   justify-content: space-between;
   margin: auto;
-  margin-bottom: 30px;
-  padding: 20px 0;
+  margin-bottom: 2em;
+  padding: 1em 0;
   text-align: center;
   width: 90%;
 }
 
+.sitemap-header .link-container {
+  display: flex;
+  justify-content: space-around;
+}
+
 .sitemap-header .sitemap-link {
-  margin: 0 10px;
-  padding: 0 20px;
+  margin: 0 0.6em;
 }
 
 .banner-image-container {
   background-color: #990033;
-  margin-bottom: 30px;
-  padding: 15px 0;
+  margin-bottom: 2em;
+  padding: 1em 0;
 }
 
 .banner-image {
   background-image: url('assets/header.png');
   background-position: 50% 38%;
   background-size: cover;
-  height: 300px;
+  height: 20em;
   width: 100%;
 }
 
 .overview-header {
-  font-family: 'Dancing Script', cursive;
-  padding-bottom: 30px;
+  font-family: 'Dancing Script', 'Georgia', serif;
+  padding-bottom: 2em;
   text-align: center;
 }
 
 .rsvp-success {
   border-color: #336699;
-  border-width: 3px;
+  border-width: 0.2em;
 }
 
 .rsvp-failure {
   border-color: #990033;
-  border-width: 3px;
+  border-width: 0.2em;
 }
 
 .flash-message-container {
