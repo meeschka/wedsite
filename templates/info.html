@@ -10,7 +10,7 @@
     <section class="sitemap-header">
       <span class="sitemap-name">David Linley</span>
       <div class="link-container">
-        <a href="index" class="sitemap-link">RSVP</a>
+        <a href="/" class="sitemap-link">RSVP</a>
         <a href="#" class="sitemap-link">Registry</a>
         <a href="#" class="sitemap-link">Info</a>
       </div>
@@ -31,22 +31,26 @@
         <p> <em>What: </em>A wedding, followed by a buffet dinner, an open bar, and lots of dancing and merriment </p>
         <p><em>When: </em>The ceremony will take place at 4:00 pm on Saturday, August 11, 2018</p>
         <p> <em>Where: </em>18 Mill Street, Angus, Ontario </p>
-
-        <br>
+      </div>
+    </div>
+    <div class="card">
         <div class="card-header">
-          <h2>Accomodations</h2>
+          <h2>Accommodations</h2>
         </div>
 
         <div class="map_wrapper">
-          <div class="map_canvas" class="mapping"></div>
+          <div id="map_canvas" class="mapping"></div>
         </div>
+        <div id="map"></div>
 
         <p>
           Several hotels are within easy driving distance of our pictuersque venue. We recommend the Knights Inn in downtown Angus, but the Angus Inn is another excellent option. Both are located a mere three-minute drive
           from the venue. If you'd prefer something a little more cosmopolitan, several major hotel chains are present in Barrie, approximately 20 minutes away. Visitors looking for more homey accomodations might enjoy
           one of the many bed and breakfasts in nearby historic Alliston. Wherever you choose to stay, a driver will be available throughout the evening to ensure you arrive safely at your destination. </p>
         <p>Whatever lodgings you'd prefer, we recommend booking as soon as possible. Between the military posting season and the smaller size of these locations, rooms book up quickly in the summer months.</p>
-        <br>
+      </div>
+      <div class="card">
+
         <div class="card-header">
           <h2>FAQ</h2>
         </div>
@@ -82,9 +86,11 @@
         </p>
 
       </div>
-  </div>
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
   <!-- <script src="https://maps.googleapis.com/maps/api/js?sensor=false&callback=initialize"></script> -->
   <script src="scripts/map.js"></script>
+  <script async defer
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAhHNQ4Btw5AsfTACuiwwGGAdLH59mvOwk&callback=initMap">
+</script>
   </body>
 </html>
