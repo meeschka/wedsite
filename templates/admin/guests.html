@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Guests for the wedding</title>
+  </head>
+  <body>
+    <h1>Guests</h1>
+    <div>
+      Total responses: {{total}} ({{attending.length}} attending, {{absent.length}} not attending)
+    </div>
+    <h2>Attending</h2>
+    <ul>
+      {{#each attending}}
+        <li>
+          {{name}} is {{#unless response}}<strong>not</strong> {{/unless}}attending.
+          {{#if allergies}} Listed allergies: {{allergies}}{{/if}}
+        </li>
+      {{/each}}
+    </ul>
+    <h2>Not Attending</h2>
+    <ul>
+      {{#each absent}}
+        <li>
+          {{name}} is <strong>not</strong> attending.
+        </li>
+      {{/each}}
+    </ul>
+  </body>
+</html>

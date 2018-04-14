@@ -3,7 +3,6 @@ const proxyquire = require('proxyquire');
 const sinon = require('sinon');
 
 describe('Server', () => {
-  let rsvpRequest;
   let server;
   let pgClient;
 
@@ -16,23 +15,29 @@ describe('Server', () => {
     const pg = {
       Client: sinon.stub().returns(pgClient),
     };
+    process.env.ADMIN_USER = 'admin';
+    process.env.ADMIN_PASSWORD = 'password';
+
     server = proxyquire('../server', {
       pg,
     });
-
-    rsvpRequest = (guestName, attending, allergies) =>
-      server.inject({
-        method: 'POST',
-        url: '/api/rsvp',
-        payload: {
-          attending,
-          guestName,
-          allergies,
-        },
-      });
   });
 
   describe('#POST /api/rsvp', () => {
+    let rsvpRequest;
+    beforeEach(() => {
+      rsvpRequest = (guestName, attending, allergies) =>
+        server.inject({
+          method: 'POST',
+          url: '/api/rsvp',
+          payload: {
+            attending,
+            guestName,
+            allergies,
+          },
+        });
+    });
+
     it('should persist rsvp details', (done) => {
       rsvpRequest('Chris', 'yes', 'many').then(() => {
         assert(pgClient.query.calledWith(
@@ -72,8 +77,32 @@ describe('Server', () => {
     });
   });
 
-  describe('#GET /api/admin/guests', () => {
-    it('should respond with guest list', (done) => {
+  describe('#GET /admin/guests', () => {
+    it('should reject unauthorized requests', (done) => {
+      server.inject({
+        method: 'GET',
+        url: '/admin/guests',
+      }).then((response) => {
+        assert.equal(response.statusCode, 401);
+        done();
+      });
+    });
+
+    it('should reject incorrect credentials', (done) => {
+      const invalid = Buffer.from('foo:bar').toString('base64');
+      server.inject({
+        method: 'GET',
+        url: '/admin/guests',
+        headers: {
+          Authorization: `Basic ${invalid}`,
+        },
+      }).then((response) => {
+        assert.equal(response.statusCode, 401);
+        done();
+      });
+    });
+
+    it('should render a view with guest list', (done) => {
       pgClient.query.withArgs('SELECT * FROM guests').returns(Promise.resolve({
         rows: [
           {
@@ -84,19 +113,34 @@ describe('Server', () => {
           },
         ],
       }));
+      const credentials = Buffer.from('admin:password').toString('base64');
 
       server.inject({
         method: 'GET',
-        url: '/api/admin/guests',
+        url: '/admin/guests',
+        headers: {
+          Authorization: `Basic ${credentials}`,
+        },
       }).then((response) => {
         assert.isOk(response.result);
-        assert.equal(response.result.length, 2);
-        assert.deepEqual(response.result[0], {
-          id: 1,
-          name: 'Luke',
-          response: true,
-          allergies: 'many',
-        });
+        assert.include(response.result, 'Luke');
+        assert.include(response.result, 'many');
+        assert.include(response.result, 'Vader');
+        done();
+      });
+    });
+  });
+
+  describe('#GET /', () => {
+    it('should render the home page', (done) => {
+      server.inject({
+        method: 'GET',
+        url: '/',
+      }).then((response) => {
+        assert.isOk(response.result);
+        assert.include(response.result, 'Michelle Pitts');
+        assert.include(response.result, 'David Linley');
+        assert.include(response.result, 'RSVP');
         done();
       });
     });
