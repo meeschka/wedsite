@@ -49,7 +49,7 @@ new Promise((resolve, reject) => {
     path: '/{templateName?}',
     handler: (request, reply) => {
       const viewName = request.params.templateName || 'index';
-      reply.view(viewName);
+      reply.view(viewName, { GOOGLE_MAPS_KEY: process.env.GOOGLE_MAPS_KEY });
     },
   });
 

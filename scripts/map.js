@@ -17,7 +17,7 @@ function initMap() {
     },
   ];
   const centerPoint = { lat: 44.316, lng: -79.885 };
-  const map = new google.maps.Map(document.getElementById('map_canvas'), {
+  const map = new google.maps.Map(document.getElementById('map'), {
     zoom: 13,
     center: centerPoint,
   });
