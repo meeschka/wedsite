@@ -6,6 +6,7 @@
   "scripts": {
     "test": "eslint . && csslint styles --quiet && NODE_ENV=test mocha",
     "lint": "eslint . && csslint styles --quiet",
+    "lint-fix": "eslint --fix .",
     "migrate": "env $(cat .env | grep -v ^# | xargs) psql -d wedsite -f db/*"
   },
   "author": "",

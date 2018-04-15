@@ -46,8 +46,11 @@ new Promise((resolve, reject) => {
 
   server.route({
     method: 'GET',
-    path: '/',
-    handler: (request, reply) => reply.view('index'),
+    path: '/{templateName?}',
+    handler: (request, reply) => {
+      const viewName = request.params.templateName || 'index';
+      reply.view(viewName, { GOOGLE_MAPS_KEY: process.env.GOOGLE_MAPS_KEY });
+    },
   });
 
   server.route({

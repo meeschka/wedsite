@@ -36,3 +36,7 @@ To test:
 To run linter:
 
     npm run lint
+
+To auto-fix lint errors:
+
+    npm run lint-fix
