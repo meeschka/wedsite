@@ -1,6 +1,7 @@
 const { assert } = require('chai');
 const proxyquire = require('proxyquire');
 const sinon = require('sinon');
+require('sinon-as-promised');
 
 describe('Server', () => {
   let server;
@@ -10,7 +11,7 @@ describe('Server', () => {
     pgClient = {
       connect: sinon.stub().yields(),
       end: sinon.stub(),
-      query: sinon.stub().returns(Promise.resolve()),
+      query: sinon.stub().resolves(),
     };
     const pg = {
       Client: sinon.stub().returns(pgClient),
@@ -51,6 +52,7 @@ describe('Server', () => {
     it('should reply with success message', (done) => {
       rsvpRequest('Geri', 'yes', 'many').then((response) => {
         assert.isOk(response);
+        assert.equal(response.statusCode, 200);
         assert.isOk(response.payload);
         done();
       });
@@ -99,6 +101,19 @@ describe('Server', () => {
         });
       });
     });
+
+    describe('when the database connection fails', () => {
+      beforeEach(() => {
+        pgClient.query.rejects();
+      });
+
+      it('should respond with an error', (done) => {
+        rsvpRequest('Geri', 'yes', 'many').then((response) => {
+          assert.equal(response.statusCode, 500);
+          done();
+        });
+      });
+    });
   });
 
   describe('#GET /admin/guests', () => {
@@ -127,7 +142,7 @@ describe('Server', () => {
     });
 
     it('should render a view with guest list', (done) => {
-      pgClient.query.withArgs('SELECT * FROM guests').returns(Promise.resolve({
+      pgClient.query.withArgs('SELECT * FROM guests').resolves({
         rows: [
           {
             id: 1, name: 'Luke', response: true, allergies: 'many',
@@ -136,7 +151,7 @@ describe('Server', () => {
             id: 2, name: 'Vader', response: false, allergies: 'none',
           },
         ],
-      }));
+      });
       const credentials = Buffer.from('admin:password').toString('base64');
 
       server.inject({
