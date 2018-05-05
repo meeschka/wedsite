@@ -3,6 +3,7 @@ const Handlebars = require('handlebars');
 const Vision = require('vision');
 const Inert = require('inert');
 const AuthBasic = require('hapi-auth-basic');
+const Boom = require('boom');
 const { Client } = require('pg');
 
 require('dotenv').config();
@@ -90,6 +91,12 @@ new Promise((resolve, reject) => {
         [name, attending, request.payload.allergies],
       ))).then(() => {
         reply('rsvp accepted');
+      }).catch((err) => {
+        if (process.env.NODE_ENV !== 'test') {
+          console.error(err.stack); // eslint-disable-line no-console
+        }
+
+        reply(Boom.internal('Database error'));
       });
     },
   });
